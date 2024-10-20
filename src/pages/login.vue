@@ -30,6 +30,7 @@
       :type="passToggle ? 'text' : 'password'"
       variant="outlined"
       @click:append-inner="passToggle = !passToggle"
+      @keyup.enter="login()"
     />
 
     <v-btn
@@ -80,6 +81,7 @@
       showAlert('mdi-alert', error.message, 'error')
       throw new Error(error)
     } else {
+      showAlert('mdi-check', 'Login successful', 'success')
       // To do: Store token
       // To do: Redirect to dashboard
     }
