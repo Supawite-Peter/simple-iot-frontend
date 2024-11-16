@@ -89,7 +89,7 @@
     required: (value: string) => !!value || 'Required.',
   })
 
-  const showAlert = inject('showAlert')
+  const showAlert = inject('showAlert') as Function
 
   const register = async () => {
     if (!username.value || !password.value) {
@@ -102,7 +102,7 @@
       return
     }
 
-    const response = await fetch(`/api/users/register`, {
+    const response = await fetch(`/api/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
