@@ -25,6 +25,7 @@ export const useAuthStore = defineStore('auth', {
 
       // Update pinia state
       this.user = await response.json()
+      this.user.username = username
       // Store jwt in local storage
       localStorage.setItem('user', JSON.stringify(this.user))
       // Redirect to previous url or default to home page
