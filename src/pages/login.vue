@@ -54,11 +54,12 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue'
+  import { useAuthStore } from '../stores/auth'
 
   const username = ref('')
   const password = ref('')
   const passToggle = ref(false)
-  const showAlert = inject('showAlert')
+  const showAlert = inject('showAlert') as Function
 
   async function login () {
     if (!username.value || !password.value) {
@@ -66,25 +67,11 @@
       return
     }
 
-    const response = await fetch(`/api/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username.value,
-        password: password.value,
-      }),
-    })
-    if (!response.ok) {
-      const error = await response.json()
-      showAlert('mdi-alert', error.message, 'error')
-      throw new Error(error)
-    } else {
-      showAlert('mdi-check', 'Login successful', 'success')
-      // To do: Store token
-      // To do: Redirect to dashboard
-    }
+    const authStore = useAuthStore()
+
+    return authStore.login(username.value, password.value)
+      .then(() => showAlert('mdi-check', 'Login successful', 'success'))
+      .catch(error => showAlert('mdi-alert', error.message, 'error'))
   }
 </script>
 
