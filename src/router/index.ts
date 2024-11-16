@@ -35,13 +35,16 @@ router.isReady().then(() => {
 })
 
 router.beforeEach(async to => {
-  // Redirect to login page if not logged in and trying to access a restricted page
   const publicPages = ['/login', '/signup', '/']
   const authRequired = !publicPages.includes(to.path)
   const auth = useAuthStore()
   if (authRequired && !auth.user) {
+    // Redirect to login page if not logged in and trying to access a restricted page
     auth.returnUrl = to.fullPath
     return '/login'
+  } else if (!authRequired && auth.user) {
+    // Redirect to home page if logged in and trying to access public page
+    return '/home'
   }
 })
 
