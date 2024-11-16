@@ -9,7 +9,7 @@
     <div class="text-h3 text-center mb-8 font-weight-bold inline">Sign <span class="text-primary">Up</span></div>
     <div class="text-subtitle-1 text-medium-emphasis">
       Username
-      <v-tooltip text="Username retriction will be added later">
+      <v-tooltip text="Username must be at least 6 characters">
         <template #activator="{ props }">
           <v-icon v-bind="props" icon="mdi-help-circle-outline" size="small" />
         </template>
@@ -20,16 +20,22 @@
       v-model="username"
       density="compact"
       placeholder="Please enter your username"
-      :rules="[rules.required]"
+      :rules="[rules.required, rules.usernameLength]"
       variant="outlined"
     />
 
     <div class="text-subtitle-1 text-medium-emphasis">
       Password
-      <v-tooltip text="Password retriction will be added later">
+      <v-tooltip>
         <template #activator="{ props }">
           <v-icon v-bind="props" icon="mdi-help-circle-outline" size="small" />
         </template>
+        <p>Password must follow all of these rules:</p>
+        <p>&#x2022; At least 8 characters</p>
+        <p>&#x2022; At least one lowercase letter</p>
+        <p>&#x2022; At least one uppercase letter</p>
+        <p>&#x2022; At least one number</p>
+        <p>&#x2022; At least one special character</p>
       </v-tooltip>
     </div>
 
@@ -40,7 +46,7 @@
       density="compact"
       hide-details="auto"
       placeholder="Please enter your password"
-      :rules="[rules.required]"
+      :rules="[rules.required, rules.passwordLength, rules.passwordStrength]"
       :type="visible ? 'text' : 'password'"
       variant="outlined"
       @click:append-inner="visible = !visible"
@@ -85,8 +91,11 @@
   const passwordRepeat = ref('')
 
   const rules = reactive({
+    usernameLength: (value: string) => value.length >= 6 || 'Username must be at least 6 characters.',
     repeatCheck: (value: string) => value === password.value || 'Password does not match.',
     required: (value: string) => !!value || 'Required.',
+    passwordLength: (value: string) => value.length >= 8 || 'Password must be at least 8 characters.',
+    passwordStrength: (value: string) => /(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])(?=.*\d)/.test(value) || 'Password is too weak.',
   })
 
   const showAlert = inject('showAlert') as Function
