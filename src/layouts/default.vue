@@ -6,6 +6,17 @@
       permanent
       rail
     >
+
+      <v-list>
+        <v-list-item
+          prepend-icon="mdi-account-circle"
+          :subtitle="useAuthStore().user.username"
+          title="Username"
+        />
+      </v-list>
+
+      <v-divider />
+
       <v-list density="compact" nav>
         <v-list-item
           v-for="item in items"
@@ -18,12 +29,13 @@
       </v-list>
 
       <template #append>
-        <v-list-item
-          nav
-          prepend-icon="mdi-logout"
-          title="Logout"
-          @click="useAuthStore().logout()"
-        />
+        <v-list density="compact" nav>
+          <v-list-item
+            prepend-icon="mdi-logout"
+            title="Logout"
+            @click="useAuthStore().logout()"
+          />
+        </v-list>
       </template>
     </v-navigation-drawer>
 
@@ -38,8 +50,9 @@
   import { useAuthStore } from '../stores/auth'
 
   const items = ref([
-    { title: 'Home', icon: 'mdi-view-dashboard', to: '/home' },
-    { title: 'Placeholder', icon: 'mdi-image', to: '/placeholder' },
+    { title: 'Home', icon: 'mdi-home', to: '/home' },
+    { title: 'Devices', icon: 'mdi-devices', to: '/devices' },
+    { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/dashboard' },
   ])
   const mini = ref(true)
 </script>
