@@ -4,7 +4,7 @@
       <v-alert
         v-show="alertConfig.show"
         class="mt-2 mr-2"
-        closable="true"
+        closable
         density="comfortable"
         :icon="alertConfig.icon"
         location="top right"
@@ -25,13 +25,13 @@
     show: false,
     icon: 'mdi-alert',
     text: '',
-    type: 'info',
+    type: 'info' as 'info' | 'success' | 'warning' | 'error' | undefined,
   })
 
   function showAlert (
     alertIconState: string,
     alertTextState: string,
-    alertTypeState: string,
+    alertTypeState: 'info' | 'success' | 'warning' | 'error' | undefined,
     alertTimeout: number = 3000,
     redirect: string = ''
   ) {
