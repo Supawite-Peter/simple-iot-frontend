@@ -10,7 +10,7 @@
       <v-list>
         <v-list-item
           prepend-icon="mdi-account-circle"
-          :subtitle="useAuthStore().user.username"
+          :subtitle="useAuthStore()?.user?.username || ''"
           title="Username"
         />
       </v-list>
