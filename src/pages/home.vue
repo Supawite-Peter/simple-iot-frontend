@@ -1,13 +1,19 @@
 <template>
   <v-sheet class="fill-height bg-grey-darken-3">
     <div class="d-flex flex-wrap pa-6 ga-4">
-      <v-card>
-        <v-card-title>Total Devices</v-card-title>
-        <v-card-text>{{ devicesCount }}</v-card-text>
-      </v-card>
-      <v-card>
-        <v-card-title>Total Topics</v-card-title>
-        <v-card-text>{{ topicsCount }}</v-card-text>
+      <v-card color="blue-darken-1" width="380">
+        <v-card-title>
+          <v-icon
+            class="mr-2"
+            icon="mdi-chart-line"
+            size="small"
+          />
+          <span>Statistics</span>
+        </v-card-title>
+        <v-card-text class="bg-grey-darken-2 pt-4 d-flex flex-wrap ga-4">
+          <v-btn block readonly variant="tonal">Total Devices: {{ devicesCount }}</v-btn>
+          <v-btn block readonly variant="tonal">Total Topics: {{ topicsCount }}</v-btn>
+        </v-card-text>
       </v-card>
     </div>
   </v-sheet>
