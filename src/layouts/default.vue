@@ -1,10 +1,10 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer
+      v-model:rail="mini"
       expand-on-hover
-      :mini-variant="mini"
       permanent
-      rail
+      width="200"
     >
 
       <v-list>
@@ -31,10 +31,17 @@
       <template #append>
         <v-list density="compact" nav>
           <v-list-item
+            base-color="red"
             prepend-icon="mdi-logout"
-            title="Logout"
+            variant="tonal"
             @click="useAuthStore().logout()"
-          />
+          >
+            <v-list-item-title
+              class="font-weight-bold"
+            >
+              LOGOUT
+            </v-list-item-title>
+          </v-list-item>
         </v-list>
       </template>
     </v-navigation-drawer>
