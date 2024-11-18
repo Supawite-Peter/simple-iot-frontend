@@ -7,6 +7,17 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddDeviceFab: typeof import('./components/devices/add-device-fab.vue')['default']
+    AddTopicsBtn: typeof import('./components/devices/topics/add-topics-btn.vue')['default']
+    Alert: typeof import('./components/alert.vue')['default']
+    AlertTop: typeof import('./components/alert-top.vue')['default']
+    CreateDeviceFab: typeof import('./components/devices/create-device-fab.vue')['default']
+    Createfab: typeof import('./components/devices/createfab.vue')['default']
+    DeleteDeviceBtn: typeof import('./components/devices/delete-device-btn.vue')['default']
+    DeleteTopicsBtn: typeof import('./components/devices/topics/delete-topics-btn.vue')['default']
+    Devicefab: typeof import('./components/devicefab.vue')['default']
+    Navigation: typeof import('./components/navigation.vue')['default']
+    NavigationBar: typeof import('./components/navigation-bar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
