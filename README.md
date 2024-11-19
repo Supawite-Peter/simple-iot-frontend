@@ -7,8 +7,12 @@ A simple IoT frontend web based on the vue.js framework. (Vuetify)
 ## Planning Features
 
 - :white_check_mark: Login/Signup Page
-- :black_square_button: Authorization
-- :black_square_button: Device Management Page
+- :white_check_mark: Authorization
+- :white_check_mark: Devices Page
+- :black_square_button: Topic Detail Card
+- :black_square_button: Home Page
+- :black_square_button: Authorization HTTP Cookie
+- :black_square_button: Animation
 - :black_square_button: Dashboard Page
 - ...
 
