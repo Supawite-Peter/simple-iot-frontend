@@ -2,7 +2,7 @@
   <v-sheet class="fill-height pa-6">
     <v-container>
       <v-chip
-        class="text-h5 font-weight-bold elevation-2"
+        class="text-h5 font-weight-bold elevation-5"
         color="primary"
         size="x-large"
         text="DEVICES"
@@ -10,6 +10,7 @@
     </v-container>
     <div class="py-2">
       <v-data-table
+        class="elevation-10 rounded-lg"
         :headers="deviceHeaders"
         :items="devices"
       >
@@ -23,18 +24,18 @@
         </template>
 
         <template #item.actions="{ item }">
-          <AddTopicsBtn
+          <add-topics-btn
             :device-id="item.device_id"
             :device-name="item.device_name"
             @added-topics="getDevices"
           />
-          <DeleteTopicsBtn
+          <delete-topics-btn
             :device-id="item.device_id"
             :device-name="item.device_name"
             :device-topics="item.device_topics"
             @deleted-topics="getDevices"
           />
-          <DeleteDeviceBtn
+          <delete-device-btn
             :device-id="item.device_id"
             :device-name="item.device_name"
             @deleted-device="getDevices"
@@ -42,17 +43,17 @@
         </template>
       </v-data-table>
     </div>
-    <AddDeviceFab @added-device="getDevices" />
+    <add-device-fab @added-device="getDevices" />
   </v-sheet>
 </template>
 
 <script lang="ts" setup>
   import { reactive, ref } from 'vue'
+  import { useAlertStore } from '@/stores/alert'
   import { fetchWrapper } from '@/helper/fetch-wrapper'
 
   // Ref
   const devices = ref([] as any[])
-  const dialogActions = ref({} as any)
   const deviceHeaders = reactive([
     {
       title: 'ID',
@@ -71,18 +72,19 @@
       key: 'actions',
     },
   ])
+  // Store
+  const showAlert = useAlertStore().showAlert
 
   onMounted(() => {
     getDevices()
   })
 
   const getDevices = async () => {
-    const response = await fetchWrapper.get(`/api/devices`)
-    dialogActions.value = {}
-    for (const device of response) {
-      dialogActions.value[device.device_id] = { show: { addTopics: false, removeTopics: false, removeDevice: false }, topics: [], removeTopics: [] }
-    }
-    devices.value = response
+    fetchWrapper.get(`/api/devices`).then(response => {
+      devices.value = response
+    }).catch(errorMessages => {
+      showAlert('mdi-alert', errorMessages, 'error')
+    })
   }
 
 </script>

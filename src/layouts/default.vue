@@ -1,7 +1,7 @@
 <template>
   <navigation-bar />
   <alert-top />
-  <router-view />
+  <router-view class="bg-background" />
 </template>
 
 <script lang="ts" setup>
