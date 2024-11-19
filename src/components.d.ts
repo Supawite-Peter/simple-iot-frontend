@@ -12,8 +12,11 @@ declare module 'vue' {
     AlertTop: typeof import('./components/alert-top.vue')['default']
     DeleteDeviceBtn: typeof import('./components/devices/delete-device-btn.vue')['default']
     DeleteTopicsBtn: typeof import('./components/devices/topics/delete-topics-btn.vue')['default']
+    HomeStatisticsCard: typeof import('./components/home/home-statistics-card.vue')['default']
+    LoginCard: typeof import('./components/login-card.vue')['default']
     NavigationBar: typeof import('./components/navigation-bar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SignupCard: typeof import('./components/signup-card.vue')['default']
   }
 }
