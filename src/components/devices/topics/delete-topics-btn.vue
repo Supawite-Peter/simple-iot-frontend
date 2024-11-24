@@ -30,7 +30,16 @@
                 :items="deviceTopics"
                 label="Topics to Remove"
                 multiple
-              />
+                variant="outlined"
+              >
+                <template #chip="{ props }">
+                  <v-chip
+                    class="text-uppercase font-weight-bold elevation-2"
+                    v-bind="props"
+                    color="primary"
+                  />
+                </template>
+              </v-autocomplete>
             </v-col>
           </v-row>
         </v-card-text>
