@@ -53,7 +53,7 @@
       </v-row>
     </v-container>
     <v-container>
-      <v-sheet class="bg-surface ma-3 pa-6 elevation-3 border-thin rounded-lg" height="400">
+      <v-sheet class="bg-surface ma-3 pa-6 elevation-3 border-thin rounded-lg" height="375">
         <line-chart :chart-data="data" class="h-100" />
       </v-sheet>
     </v-container>
