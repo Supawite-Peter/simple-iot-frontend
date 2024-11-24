@@ -27,10 +27,10 @@ function request (method: 'GET' | 'POST' | 'PUT' | 'DELETE') {
 function authHeader (url: string) {
   // return auth header with jwt if user is logged in and request is to the api url
   const { user } = useAuthStore()
-  const isLoggedIn = !!user?.access_token
+  const isLoggedIn = !!user?.accessToken
   const isApiUrl = url.startsWith('/api')
   if (isLoggedIn && isApiUrl) {
-    return { Authorization: `Bearer ${user.access_token}` } as any
+    return { Authorization: `Bearer ${user.accessToken}` } as any
   } else {
     return {} as any
   }

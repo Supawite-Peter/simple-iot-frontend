@@ -66,7 +66,7 @@
     if (!id) return showAlertAndResetDialog('mdi-alert', 'Device id is required', 'error')
 
     fetchWrapper.delete(`/api/devices/`, {
-      device_id: id,
+      id,
     }).then(() => {
       showAlertAndResetDialog('mdi-check', 'Device removed successfully', 'success')
       emit('deletedDevice')
