@@ -12,7 +12,7 @@
             thickness="4"
           />
         </v-col>
-        <v-col class="ma-auto" lg="2">
+        <v-col class="ma-auto" lg="3" xl="2">
           <p class="text-h2 font-weight-black text-primary text-center">DEVICES</p>
         </v-col>
         <v-col>
