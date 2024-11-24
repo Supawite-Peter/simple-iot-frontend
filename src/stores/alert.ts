@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 
 export const useAlertStore = defineStore('alert', {
   state: () => ({
-    // initialize state from local storage to enable user to stay logged in
     show: false,
     icon: 'mdi-alert',
     text: '',
