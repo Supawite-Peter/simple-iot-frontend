@@ -50,6 +50,13 @@
                 multiple
                 variant="outlined"
               >
+                <template #chip="{ props }">
+                  <v-chip
+                    class="text-uppercase font-weight-bold elevation-2"
+                    v-bind="props"
+                    color="primary"
+                  />
+                </template>
                 <template #no-data>
                   <v-list-item>
                     <v-list-item-title>
@@ -99,8 +106,8 @@
     if (!newName.value) return showAlertAndResetDialog('mdi-alert', 'Device name is required', 'error')
 
     fetchWrapper.post(`/api/devices`, {
-      device_name: newName.value,
-      device_topics: newTopics.value,
+      name: newName.value,
+      topics: newTopics.value,
     }).then(() => {
       showAlertAndResetDialog('mdi-check', 'Device added successfully', 'success')
       emit('addedDevice')
