@@ -8,7 +8,7 @@
   >
     <v-sheet
       color="primary-lighten-1"
-      height="240"
+      height="200"
     >
       <v-container
         class="mx-4"
@@ -53,8 +53,8 @@
       </v-row>
     </v-container>
     <v-container>
-      <v-sheet class="bg-surface ma-3 pa-6 elevation-3 border-thin rounded-lg">
-        <line-chart :chart-data="data" />
+      <v-sheet class="bg-surface ma-3 pa-6 elevation-3 border-thin rounded-lg" height="400">
+        <line-chart :chart-data="data" class="h-100" />
       </v-sheet>
     </v-container>
     <template #append>
