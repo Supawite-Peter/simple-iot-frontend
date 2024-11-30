@@ -39,14 +39,14 @@
         <v-sheet class="d-flex ga-3 mr-3 float-right">
           <dropdown-btn
             button-text="Refresh"
-            :ini-selection="refreshTimer"
+            :ini-selection="refreshTimerString"
             :items="refreshTimerItems"
             @update-selection="updateRefreshTimer"
           />
           <dropdown-btn
             button-text="Last"
-            :ini-selection="last"
-            :items="lastItems"
+            :ini-selection="getLastString"
+            :items="getLastItems"
             @update-selection="updateLast"
           />
         </v-sheet>
@@ -54,7 +54,7 @@
     </v-container>
     <v-container>
       <v-sheet class="bg-surface ma-3 pa-6 elevation-3 border-thin rounded-lg" height="375">
-        <line-chart :chart-data="data" class="h-100" />
+        <Line id="myChart" class="h-100" :data="data" :options="options" />
       </v-sheet>
     </v-container>
     <template #append>
@@ -72,45 +72,93 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive, ref } from 'vue'
+  import { ref, shallowReactive } from 'vue'
   import { useTopicDrawerStore } from '@/stores/topics-drawer'
-  import { LineChart } from 'vue-chart-3'
+  import { Line } from 'vue-chartjs'
   import { Chart, registerables } from 'chart.js'
+  import { fetchWrapper } from '@/helper/fetch-wrapper'
+  import ms from 'ms'
+  import 'chartjs-adapter-date-fns'
 
   Chart.register(...registerables)
 
+  // Store
+  const topicDrawerStore = useTopicDrawerStore()
   // Ref
   const refreshTimerItems = ref(['1s', '5s', '10s', '30s', '1m', '5m', '10m', '30m'])
-  const refreshTimer = ref('5s')
-  const lastItems = ref(['1m', '5m', '10m', '30m', '1h', '6h', '12h', '1d'])
-  const last = ref('5m')
-  const data = reactive({
-    labels: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
+  const refreshTimerString = ref('5s')
+  const refreshTimerTimestamp = ref(ms(refreshTimerString.value))
+  const refreshInterval = ref(0)
+  const getLastItems = ref(['1m', '5m', '10m', '30m', '1h', '6h', '12h', '1d'])
+  const getLastString = ref('5m')
+  const getLastTimestamp = ref(Date.now() - ms(getLastString.value))
+  // Shallow reactive (for chart data)
+  const data = shallowReactive({
     datasets: [
       {
-        label: 'Dataset 1',
-        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        data: [] as any,
       },
     ],
   })
-
-  watch(refreshTimer, () => {
-    console.log(refreshTimer.value)
+  const options = shallowReactive({
+    scales: {
+      x: {
+        type: 'time' as 'timeseries',
+      },
+    },
   })
 
-  watch(last, () => {
-    console.log(last.value)
+  watch(() => topicDrawerStore.show, () => {
+    clearInterval(refreshInterval.value)
+    if (topicDrawerStore.show) {
+      updateGraph()
+      refreshInterval.value = setInterval(updateGraph, refreshTimerTimestamp.value)
+    }
   })
-
-  // Store
-  const topicDrawerStore = useTopicDrawerStore()
 
   const updateRefreshTimer = (value : string) => {
-    refreshTimer.value = value
+    refreshTimerString.value = value
+    refreshTimerTimestamp.value = ms(value)
+    clearInterval(refreshInterval.value)
+    refreshInterval.value = setInterval(updateGraph, refreshTimerTimestamp.value)
+    updateGraph()
   }
   const updateLast = (value : string) => {
-    last.value = value
+    getLastString.value = value
+    getLastTimestamp.value = Date.now() - ms(value)
+    updateGraph()
+  }
+
+  const updateGraph = async () => {
+    try {
+      const reponseData:[{timestamp: number, value: number}] = await fetchPeriodicData()
+      updateData(reponseData.map(d => ({ x: d.timestamp, y: d.value })))
+    } catch {
+      updateData([])
+    }
+  }
+
+  const fetchPeriodicData = async () => {
+    const from = getLastTimestamp.value
+    const to = Date.now()
+    return fetchWrapper.get(
+      `/api/devices/${topicDrawerStore.deviceId}/${topicDrawerStore.topic}/periodic?from=${from}&to=${to}&unix=true`
+    )
+  }
+
+  const updateData = (data: any) => {
+    const chart = Chart.getChart('myChart') as Chart
+    chart.data.datasets[0].data = data
+    chart.data.datasets[0].label = topicDrawerStore.topic.toUpperCase()
+    chart.options = {
+      scales: {
+        x: {
+          type: 'time' as 'timeseries',
+          max: Date.now(),
+          min: getLastTimestamp.value,
+        },
+      },
+    }
+    chart.update()
   }
 </script>
