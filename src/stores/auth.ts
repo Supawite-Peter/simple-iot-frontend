@@ -36,5 +36,15 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('user')
       router.push('/login')
     },
+
+    async refresh () {
+      const response = await fetch(`/api/auth/refresh`, {
+        method: 'GET',
+      })
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message)
+      }
+    },
   },
 })
