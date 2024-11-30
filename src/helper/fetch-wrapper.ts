@@ -8,48 +8,48 @@ export const fetchWrapper = {
 }
 
 function request (method: 'GET' | 'POST' | 'PUT' | 'DELETE') {
-  return (url: string, body?: any) => {
+  return async (url: string, body?: any, headers?: any) => {
     const requestOptions = {
       method,
-      headers: authHeader(url),
+      headers,
       body,
     }
+    // JSON body
     if (body) {
       requestOptions.headers['Content-Type'] = 'application/json'
       requestOptions.body = JSON.stringify(body)
     }
-    return fetch(url, requestOptions).then(handleResponse)
+    // Return fetch promise
+    return fetch(url, requestOptions)
+      .then(response => handleResponse(response, requestOptions))
   }
 }
 
-// helper functions
-
-function authHeader (url: string) {
-  // return auth header with jwt if user is logged in and request is to the api url
-  const { user } = useAuthStore()
-  const isLoggedIn = !!user?.accessToken
-  const isApiUrl = url.startsWith('/api')
-  if (isLoggedIn && isApiUrl) {
-    return { Authorization: `Bearer ${user.accessToken}` } as any
-  } else {
-    return {} as any
-  }
-}
-
-function handleResponse (response: { text: () => Promise<string>; ok: any; status: number; statusText: any; }) {
-  return response.text().then((text: string) => {
+// Helper functions
+async function handleResponse (response: Response, requestOptions?: any) {
+  return response.text().then(async (text: string) => {
     const data = text && JSON.parse(text)
     if (!response.ok) {
-      const { user, logout } = useAuthStore()
+      // Auto try to refresh access token on 401 and 403 responses
+      const { user, logout, refresh } = useAuthStore()
       if ([401, 403].includes(response.status) && user) {
-        // Auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-        logout()
+        try {
+          // Try to refresh access token
+          await refresh()
+          // Retry original request
+          return fetch(response.url, requestOptions)
+            .then(r => r.text())
+            .then(text => text && JSON.parse(text))
+        } catch {
+          // If refresh access token fails,
+          // logout to get both new tokens
+          logout()
+        }
       }
-
-      const error = (data && data.message) || response.statusText
-      return Promise.reject(error)
+      // Return error for other responses
+      return Promise.reject((data && data.message) || response.statusText)
     }
-
+    // Return data for 200 responses
     return data
   })
 }

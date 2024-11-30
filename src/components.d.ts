@@ -19,9 +19,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SignupCard: typeof import('./components/signup-card.vue')['default']
-    TopicDetail: typeof import('./components/devices/topics/topic-detail.vue')['default']
     TopicDetailBtn: typeof import('./components/devices/topics/topic-detail-btn.vue')['default']
     TopicDetailDrawer: typeof import('./components/devices/topics/topic-detail-drawer.vue')['default']
-    TopicDetialDrawer: typeof import('./components/devices/topics/topic-detial-drawer.vue')['default']
   }
 }

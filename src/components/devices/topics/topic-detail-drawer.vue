@@ -108,6 +108,9 @@
     },
   })
 
+  // Watch drawer open and close
+  // if open reset graph update interval
+  // if close clear interval
   watch(() => topicDrawerStore.show, () => {
     clearInterval(refreshInterval.value)
     if (topicDrawerStore.show) {
@@ -116,7 +119,9 @@
     }
   })
 
+  // Dropdown button methods
   const updateRefreshTimer = (value : string) => {
+    // Update refresh timer and reset graph update interval
     refreshTimerString.value = value
     refreshTimerTimestamp.value = ms(value)
     clearInterval(refreshInterval.value)
@@ -124,11 +129,13 @@
     updateGraph()
   }
   const updateLast = (value : string) => {
+    // Update get last timestamp and update graph
     getLastString.value = value
     getLastTimestamp.value = Date.now() - ms(value)
     updateGraph()
   }
 
+  // Update graph values
   const updateGraph = async () => {
     try {
       const reponseData:[{timestamp: number, value: number}] = await fetchPeriodicData()
@@ -138,6 +145,7 @@
     }
   }
 
+  // Fetch new periodic data
   const fetchPeriodicData = async () => {
     const from = getLastTimestamp.value
     const to = Date.now()
@@ -146,6 +154,7 @@
     )
   }
 
+  // Update chart data
   const updateData = (data: any) => {
     const chart = Chart.getChart('myChart') as Chart
     chart.data.datasets[0].data = data

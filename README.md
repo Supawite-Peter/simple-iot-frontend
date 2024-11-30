@@ -21,7 +21,7 @@ A simple IoT frontend web based on the vue.js framework. (Vuetify)
 ## Requirements
 
 1. Node.js (version >= 18.3)
-2. [Simple IoT Backend](https://github.com/Supawite-Peter/simple-iot-backend-microservices) (version >= 0.0.3-alpha)
+2. [Simple IoT Backend](https://github.com/Supawite-Peter/simple-iot-backend-microservices) (version == 0.1.0-alpha)
 
 ## Project setup
 
