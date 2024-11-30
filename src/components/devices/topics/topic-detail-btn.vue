@@ -6,7 +6,7 @@
     size="small"
     :text="topic"
     variant="tonal"
-    @click="openDrawer(deviceName, topic)"
+    @click="openDrawer(deviceId, deviceName, topic)"
   />
 </template>
 
