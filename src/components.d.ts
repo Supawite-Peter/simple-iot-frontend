@@ -12,11 +12,16 @@ declare module 'vue' {
     AlertTop: typeof import('./components/alert-top.vue')['default']
     DeleteDeviceBtn: typeof import('./components/devices/delete-device-btn.vue')['default']
     DeleteTopicsBtn: typeof import('./components/devices/topics/delete-topics-btn.vue')['default']
+    DropdownBtn: typeof import('./components/button/dropdown-btn.vue')['default']
     HomeStatisticsCard: typeof import('./components/home/home-statistics-card.vue')['default']
     LoginCard: typeof import('./components/login-card.vue')['default']
     NavigationBar: typeof import('./components/navigation-bar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SignupCard: typeof import('./components/signup-card.vue')['default']
+    TopicDetail: typeof import('./components/devices/topics/topic-detail.vue')['default']
+    TopicDetailBtn: typeof import('./components/devices/topics/topic-detail-btn.vue')['default']
+    TopicDetailDrawer: typeof import('./components/devices/topics/topic-detail-drawer.vue')['default']
+    TopicDetialDrawer: typeof import('./components/devices/topics/topic-detial-drawer.vue')['default']
   }
 }

@@ -33,6 +33,13 @@
                 multiple
                 variant="outlined"
               >
+                <template #chip="{ props }">
+                  <v-chip
+                    class="text-uppercase font-weight-bold elevation-2"
+                    v-bind="props"
+                    color="primary"
+                  />
+                </template>
                 <template #no-data>
                   <v-list-item>
                     <v-list-item-title>

@@ -44,7 +44,7 @@
     const response = await fetchWrapper.get(`/api/devices`)
     devicesCount.value = response.length
     for (const device of response) {
-      topicsCount.value += device.device_topics.length
+      topicsCount.value += device.topics.length
     }
   }
 </script>
