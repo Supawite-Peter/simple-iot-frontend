@@ -11,7 +11,7 @@ function request (method: 'GET' | 'POST' | 'PUT' | 'DELETE') {
   return async (url: string, body?: any, headers?: any) => {
     const requestOptions = {
       method,
-      headers,
+      headers: headers || {},
       body,
     }
     // JSON body
