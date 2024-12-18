@@ -54,7 +54,7 @@
           />
           <delete-device-btn
             :device-id="item.id"
-            :device-name="item.device_name"
+            :device-name="item.name"
             @deleted-device="getDevices"
           />
         </template>
