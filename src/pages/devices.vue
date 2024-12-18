@@ -102,6 +102,7 @@
       devices.value = response
     }).catch(errorMessages => {
       showAlert('mdi-alert', errorMessages, 'error')
+      devices.value = []
     })
   }
 
